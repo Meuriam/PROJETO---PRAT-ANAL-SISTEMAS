@@ -5,7 +5,6 @@
       <div class="row mb-3">
         <Profile :profile="$store.getters.currentUser" />
         <div class="bg-white p-5 mt-3 box">
-        <p class="text-center font-weight-bold">Catálogo de Serviços</p>
         <List v-if="$store.getters.currentUser.type == 'contratante'"
             :profile="$store.getters.currentUser"
             class="bg-white p-3"/>

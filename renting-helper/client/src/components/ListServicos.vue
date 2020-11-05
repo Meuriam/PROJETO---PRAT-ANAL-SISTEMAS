@@ -1,5 +1,6 @@
 <template>
   <div class>
+  <p class="text-center font-weight-bold">Catálogo de Serviços</p>
     <div class="p-2 bg-white">
       <div class="form-group">
         <label for="services">Serviços Disponíveis:</label>
@@ -29,7 +30,7 @@ export default {
     return {
       form: {
         type: "contratado",
-        services: this.profile.services,
+        services: this.$store.state.services,
       },
       services: this.$store.state.services
     };
