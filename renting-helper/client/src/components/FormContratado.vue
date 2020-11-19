@@ -42,28 +42,7 @@
         placeholder="Clica aqui para selecionar um ou mais serviços"
       ></Multiselect>
     </div>
-    <!-- GRADELEVEL -->
-    <!-- RESUME -->
-    <div class="form-group">
-      <p class>Deseja prestar algum outro serviço que não existe na lista?</p>
-      <div class="flex__container">
-        <div>
-          <input class type="radio" name="addResume" v-model="resumeOpt" :value="true" id="yes" />
-          <label for="yes" class="pl-3">Sim</label>
-        </div>
-        <div class="pl-4">
-          <input class type="radio" name="addResume" v-model="resumeOpt" :value="false" id="no" />
-          <label for="no" class="pl-3">Não</label>
-        </div>
-      </div>
-      <div v-if="resumeOpt">
-        <div class="form-group">
-          <label for="resume">Qual o serviço desejado?</label>
-          <input v-model="form.resume" type="url" class="form-control" id="resume" />
-        </div>
-      </div>
-    </div>
-    <!-- RESUME -->   
+    <!-- GRADELEVEL -->  
     <!-- state -->
     <div class="form-group">
       <label for="state">Em qual estado você deseja encontrar serviços?</label>

@@ -62,6 +62,7 @@ export default new Vuex.Store({
       "Eletricista",
       "Jardineiro"
     ],
+    search:[]
   },
   // Setters internos
   mutations: {
@@ -94,6 +95,9 @@ export default new Vuex.Store({
     },
     updateOwner(state, bool) {
       state.owner = bool;
+    },
+    updateSearch(state, search) {
+      state.search = search;
     },
   },
   // Getters externos
@@ -265,6 +269,44 @@ export default new Vuex.Store({
         token: "",
         user: "",
       });
+    },
+    async requestBudget(context, payload){
+      try {
+        var response = await Axios.post(
+          `${context.state.api}/api/budgets/`,
+          payload,
+          {
+            headers: {
+              Authorization: context.state.session.token,
+            },
+          }
+        );
+      } catch (error) {
+        context.commit("updateMessage", {
+          type: "danger",
+          data: error.response.data.message,
+        });
+        return false;
+      }
+      return response
+    },
+    async retrieveBudgets(context, userId) {
+      try {
+        const response = await Axios.get(
+          `${context.state.api}/api/budgets/${userId}`,
+          {
+            headers: {
+              Authorization: context.state.session.token,
+            },
+          }
+        );
+        context.commit("updateBudgets", response.data.posts.reverse());
+      } catch (error) {
+        context.commit("updateMessage", {
+          type: "danger",
+          data: error.response.data.message,
+        });
+      }
     },
   },
 });

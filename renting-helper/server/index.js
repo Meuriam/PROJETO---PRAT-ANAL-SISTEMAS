@@ -15,19 +15,13 @@ app.use(express.json());
 
 // Import routes
 const usersRoute = require('./routes/api/users')
-//const articlesRoute = require('./routes/api/articles')
-//const postsRoute = require('./routes/api/posts')
-//const likeRoute = require('./routes/api/like')
-//const followRoute = require('./routes/api/follow')
 const uploadRoute = require('./routes/api/upload')
+const budgetsRoute = require('./routes/api/budgets')
 
 // Configure routes
 app.use('/api/users', usersRoute)
-// app.use('/api/articles', articlesRoute)
-// app.use('/api/posts', postsRoute)
-// app.use('/api/like', likeRoute)
-// app.use('/api/follow', followRoute)
 app.use('/api/upload', uploadRoute)
+app.use('/api/budgets', budgetsRoute)
 
 // Connect to DB
 mongoose.connect(

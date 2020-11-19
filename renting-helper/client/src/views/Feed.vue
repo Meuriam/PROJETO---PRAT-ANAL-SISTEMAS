@@ -8,6 +8,9 @@
         <List v-if="$store.getters.currentUser.type == 'contratante'"
             :profile="$store.getters.currentUser"
             class="bg-white p-3"/>
+        <Budget v-if="$store.getters.currentUser.type == 'contratado'"
+            :profile="$store.getters.currentUser"
+            class="bg-white p-3"/>
         </div>
       </div>
     </div>
@@ -18,6 +21,7 @@
 import Navbar from "../components/Navbar";
 import Profile from "../components/ProfileColumn";
 import List from "../components/ListServicos";
+import Budget from "../components/ListBudgets";
 
 
 export default {
@@ -30,7 +34,8 @@ export default {
   components: {
     Navbar,
     Profile,
-    List
+    List,
+    Budget
   },
   methods: {
     setSameHeight(el) {

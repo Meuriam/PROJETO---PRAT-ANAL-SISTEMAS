@@ -15,9 +15,15 @@
       </div>
       <!-- SUBMIT -->
       <div class="flex__container">
-        <button @click="updateUser()" type="button" class="btn btn-success form-group">Solicitar Orçamento</button>
+        <button @click="search()" type="button" class="btn btn-success form-group">Buscar</button>
       </div>
       <!-- SUBMIT -->
+      <div>
+      <pre v-for="user in $store.state.search" :key="user._id">
+        {{user.name}}
+        <button @click="requestBudget(user._id)" type="button" class="btn btn-success form-group">Solicitar Orçamento</button>
+      </pre>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +34,7 @@ export default {
   props: ["profile"],
   data() {
     return {
+      searchData: this.$store.state.search,
       form: {
         type: "contratado",
         services: this.$store.state.services,
@@ -36,12 +43,12 @@ export default {
     };
   },
   methods: {
-    updateUser() {
-      this.form.image = this.image;
-      this.$store.dispatch("updateUser", {
-        _id: this.profile._id,
-        new: this.form
-      });
+    search() {
+      this.$store.dispatch("searchUsers");
+    },
+    requestBudget(id){
+      var selectedServices = this.form.services
+      this.$store.dispatch("requestBudget", {id, selectedServices});
     }
   },
   computed: {

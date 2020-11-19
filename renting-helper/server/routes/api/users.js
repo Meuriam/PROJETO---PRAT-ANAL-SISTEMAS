@@ -14,8 +14,8 @@ const UserContratante = require('../../models/UserContratante')
 
 // Import validation schemas
 const UserValidation = require('../../utils/validation')
-const CreateUserValidation = UserValidation.options({presence: 'required'})
-const UpdateUserValidation = UserValidation.options({presence: 'optional'})
+//const CreateUserValidation = UserValidation.options({presence: 'required'})
+//const UpdateUserValidation = UserValidation.options({presence: 'optional'})
 
 // Whitelist for filtering user data
 const whitelist = require('../../utils/whitelists').user
@@ -105,22 +105,22 @@ router.put('/:id', auth, async (req, res) => {
         delete req.body['oldPassword'];
     }
 
-    const {
-        error
-    } = await UpdateUserValidation.validate(req.body)
-    if (error) return res.status(400).json({
-        message: error.details[0].message
-    })
+    //const {
+    //    error
+   // } = await UpdateUserValidation.validate(req.body)
+ //   if (error) return res.status(400).json({
+  //      message: error.details[0].message
+//})
 
     try {
         let savedUser = null
 
         switch (req.body.type) {
             case 'contratante':
-                savedUser = await UserContratado.findByIdAndUpdate(req.params.id, req.body, {useFindAndModify: false});
+                savedUser = await UserContratante.findByIdAndUpdate(req.params.id, req.body, {useFindAndModify: false});
                 break;
             case 'contratado':
-                savedUser = await UserContratante.findByIdAndUpdate(req.params.id, req.body, {useFindAndModify: false});
+                savedUser = await UserContratado.findByIdAndUpdate(req.params.id, req.body, {useFindAndModify: false});
                 break;
             default:
                 savedUser = await User.findByIdAndUpdate(req.params.id, req.body, {useFindAndModify: false});

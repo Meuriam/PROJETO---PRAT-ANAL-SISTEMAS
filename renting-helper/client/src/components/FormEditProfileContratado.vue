@@ -41,6 +41,17 @@
         <input v-model="form.birthday" type="date" class="form-control" id="birthday" />
       </div>
       <!-- BIRTHDAY -->
+    <div class="form-group">
+      <label for="services">Selecione os serviços que deseja prestar:</label>
+      <Multiselect
+        v-model="form.services"
+        :options="services"
+        :searchable="false"
+        :close-on-select="false"
+        :multiple="true"
+        placeholder="Clica aqui para selecionar um ou mais serviços"
+      ></Multiselect>
+    </div>
       <!-- state -->
     <div class="form-group">
       <label for="state">Em qual estado você deseja encontrar serviços?</label>
@@ -79,8 +90,10 @@ export default {
         newPassword: this.profile.newPassword,
         birthday: this.profile.birthday.split("T")[0],
         state: this.profile.state,
+        services: this.profile.services,
         image: this.image,
       },
+      services: this.$store.state.services,
       state: this.$store.state.state      
     };
   },
