@@ -1,19 +1,19 @@
 <template>
   <div class>
-  <p class="text-center font-weight-bold">Histórico de Serviços</p>
+  <p class="text-center font-weight-bold">Histórico de Orçamentos</p>
     <div class="bg-white">
         <label for="services">Orçamentos Pendentes:</label>   
-        <div class="d-flex flex-row justify-content-between bg-light p-4 rounded border mb-4" v-for="budget in budgets" :key="budget._id"> 
-        <div class="d-flex flex-column">   
+        <div class="d-flex flex-row justify-content-between bg-light p-4 rounded border mb-4" v-for="budget in budgets" :key="budget._id">
+         <div class="d-flex flex-column">
             <span><b>Contratante: </b>{{budget.contratante.name}}</span>
             <span><b>Serviço: </b>{{budget.service}}</span>
-            <span><b>Estado:</b> {{budget.contratante.state}}</span>
             <span><b>Data: </b>{{new Date(budget.date.replace("Z", "")).toLocaleString().split(" ")[0]}}</span>
-        </div>
-        <div class="d-flex flex-column">  
-            <input v-model="form.value" min="0" type="number" id="budget-value" class="form-control mb-4"/>
-            <button @click="updateBudget(budget._id, 1)" type="submit" class="btn btn-success form-group">Enviar Orçamento</button>
-        </div>
+            <span><b>Valor do Serviço:</b> {{formatValue(budget.value)}}</span>
+         </div>
+         <div class="d-flex flex-column">
+            <button @click="updateBudget(budget._id, 2)" type="submit" class="btn btn-success form-group">Aceitar Orçamento</button>
+            <button @click="updateBudget(budget._id, 99)" type="submit" class="btn btn-danger form-group">Recusar Orçamento</button>    
+         </div>
       </div>
     </div>
   </div>
@@ -30,9 +30,9 @@ export default {
       form: {
         type: "contratado",
         services: this.$store.state.services,
-        value: 0
       },
-      services: this.$store.state.services
+      services: this.$store.state.services,
+      formatter:  new Intl.NumberFormat('pt-BR', {style: 'currency',currency: 'BRL',})
     };
   },
   methods: {
@@ -44,8 +44,10 @@ export default {
       this.$store.dispatch("requestBudget", {id, selectedServices});
     },
     updateBudget(id, newStatus){
-       const newValue = this.form.value
-       this.$store.dispatch("updateBudget", {id, newStatus, newValue});      
+       this.$store.dispatch("updateBudget", {id, newStatus});       
+    },
+    formatValue(value){
+      return this.formatter.format(value);
     }
   },
   computed: {
@@ -53,10 +55,10 @@ export default {
       return this.$store.getters.currentUser.image;
     },
     budgets(){
-      return this.$store.state.budgets.filter(budget => {
-        return budget.status == 0
-      })
-    }     
+        return this.$store.state.budgets.filter(budget => {
+        return budget.status == 1
+      }) 
+    }    
   },
 };
 </script>

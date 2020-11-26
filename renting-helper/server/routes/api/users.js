@@ -53,6 +53,31 @@ router.get('/', auth, async (req, res) => {
 })
 
 /**
+ * @routes /api/users
+ * @desc Route for search users
+ * @access Private (Authenticated only)
+ */
+
+router.post('/search', auth, async (req, res) => {
+
+    const { 
+        service
+    } = req.body
+
+    const {
+        state 
+    } =  req.user
+
+    const users = await User.find({state: state, services: service}, whitelist);
+    if (users.length <= 0) return res.status(404).send({
+        message: "Não existem prestadores em sua região para esse serviço."
+    })
+
+    res.status(200).send(users)
+})
+
+
+/**
  * @route   GET /api/users/:id
  * @desc    Return data from the user on the URL
  * @access  Private (Authenticated only)

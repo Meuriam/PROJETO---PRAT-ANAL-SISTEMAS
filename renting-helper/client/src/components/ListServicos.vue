@@ -13,16 +13,22 @@
           placeholder="Escolha um serviço"
         ></Multiselect>
       </div>
-      <!-- SUBMIT -->
       <div class="flex__container">
         <button @click="search()" type="button" class="btn btn-success form-group">Buscar</button>
-      </div>
-      <!-- SUBMIT -->
+      </div><br>
       <div>
-      <pre v-for="user in $store.state.search" :key="user._id">
-        {{user.name}}
-        <button @click="requestBudget(user._id)" type="button" class="btn btn-success form-group">Solicitar Orçamento</button>
-      </pre>
+      <div class="d-flex flex-row justify-content-between bg-light p-4 rounded border mb-4" v-for="user in $store.state.search" :key="user._id">
+        <div class="d-flex flex-column">
+           <span><b>Marido de Aluguel:</b> {{user.name}}</span>
+           <span><b>Serviço:</b> {{form.services}}</span>
+           <span><b>Estado:</b> {{user.state}}</span>
+        </div>
+        <div class="d-flex flex-column">
+           <label for="date"><b> Data de Agendamento:</b></label>
+           <input v-model="form.date" :min="today()" type="date" class="form-control mb-4" id="date" />
+           <button @click="requestBudget(user._id)" type="button" class="btn btn-success form-group">Solicitar Orçamento</button>
+        </div>        
+      </div>
       </div>
     </div>
   </div>
@@ -37,18 +43,29 @@ export default {
       searchData: this.$store.state.search,
       form: {
         type: "contratado",
-        services: this.$store.state.services,
+        services: [],
       },
       services: this.$store.state.services
     };
   },
   methods: {
     search() {
-      this.$store.dispatch("searchUsers");
+      var service = this.form.services
+      this.$store.dispatch("searchUsers", {service});
     },
     requestBudget(id){
       var selectedServices = this.form.services
-      this.$store.dispatch("requestBudget", {id, selectedServices});
+      var selectedDate = this.form.date
+      if (!selectedDate){
+        return this.$store.commit("updateMessage", {
+          type: "danger",
+          data: "A data de agendamento é obrigatória.",
+        });
+      }
+      this.$store.dispatch("requestBudget", {id, selectedServices, selectedDate});
+    },
+    today(){
+      return new Date().toISOString().substring(0,10);
     }
   },
   computed: {
@@ -66,5 +83,8 @@ export default {
 }
 .fullwidth {
   width: 100%;
+}
+.form-control{
+  width: 176px;
 }
 </style>

@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   // Variaveis
   state: {
-    api: "http://localhost:5000",
+    api: "https://rentinghelper-api.vercel.app",
     owner: true,
     session: {
       user: {
@@ -60,9 +60,20 @@ export default new Vuex.Store({
     services: [
       "Encanador",
       "Eletricista",
-      "Jardineiro"
+      "Jardineiro",
+      "Marceneiro",
+      "Pintor",
+      "Faxineiro",
+      "Chaveiro",
+      "Montador de Móveis",
+      "Técnico de Informática",
+      "Alveneiro",
+      "Churrasqueiro",
+      "Azulejista",
+      "Carpinteiro"
     ],
-    search:[]
+    search:[],
+    budgets:[]
   },
   // Setters internos
   mutations: {
@@ -99,6 +110,9 @@ export default new Vuex.Store({
     updateSearch(state, search) {
       state.search = search;
     },
+    updateBudgets(state, budgets){
+      state.budgets = budgets;
+    }
   },
   // Getters externos
   getters: {
@@ -220,9 +234,10 @@ export default new Vuex.Store({
       }
     },
     // Search
-    async searchUsers(context) {
+    async searchUsers(context, payload) {
+      context.commit("updateSearch", []);
       try {
-        const response = await Axios.get(`${context.state.api}/api/users/`, {
+        const response = await Axios.post(`${context.state.api}/api/users/search`, payload, {
           headers: {
             Authorization: context.state.session.token,
           },
@@ -281,6 +296,11 @@ export default new Vuex.Store({
             },
           }
         );
+        context.commit("updateMessage", {
+          type: "success",
+          data: response.data.message,
+          fade: true
+        });
       } catch (error) {
         context.commit("updateMessage", {
           type: "danger",
@@ -290,10 +310,10 @@ export default new Vuex.Store({
       }
       return response
     },
-    async retrieveBudgets(context, userId) {
+    async retrieveBudgets(context) {
       try {
         const response = await Axios.get(
-          `${context.state.api}/api/budgets/${userId}`,
+          `${context.state.api}/api/budgets/${context.state.session.user._id}`,
           {
             headers: {
               Authorization: context.state.session.token,
@@ -308,5 +328,34 @@ export default new Vuex.Store({
         });
       }
     },
+    async updateBudget(context, {id, newStatus, newValue}){
+      const payload = {}
+      if (newValue) payload.value = newValue;
+      if (newStatus) payload.status = newStatus;
+      try {
+        const response = await Axios.put(
+          `${context.state.api}/api/budgets/${id}`,
+          {
+            status: newStatus,
+            value: newValue
+          },
+          {
+            headers: {
+              Authorization: context.state.session.token,
+            },
+          }
+        );
+        context.commit("updateMessage", {
+          type: "success",
+          data: response.data.message,
+          fade: false
+        });
+      } catch (error) {
+        context.commit("updateMessage", {
+          type: "danger",
+          data: error.response.data.message,
+        });
+      }      
+    }
   },
 });

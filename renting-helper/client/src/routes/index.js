@@ -44,5 +44,21 @@ export default new Router({
         requiresAuth: true,
       },
     },
+    {
+      path: "/budgets",
+      name: "budgets",
+      component: () => import("../views/Budgets"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/services",
+      name: "services",
+      component: () => import("../views/MyServices"),
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 });

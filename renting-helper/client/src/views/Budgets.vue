@@ -9,12 +9,13 @@
       <div class="row mb-3">
         <Profile :profile="$store.getters.currentUser" />
         <div class="bg-white p-5 mt-3 box">
-        <List v-if="$store.getters.currentUser.type == 'contratante'"
+        <MyBudgetsContratante v-if="$store.getters.currentUser.type == 'contratante'"
             :profile="$store.getters.currentUser"
             class="bg-white p-3"/>
         <Budget v-if="$store.getters.currentUser.type == 'contratado'"
             :profile="$store.getters.currentUser"
             class="bg-white p-3"/>
+        
         </div>
       </div>
     </div>
@@ -24,7 +25,7 @@
 <script>
 import Navbar from "../components/Navbar";
 import Profile from "../components/ProfileColumn";
-import List from "../components/ListServicos";
+import MyBudgetsContratante from "../components/MyBudgetsContratante";
 import Budget from "../components/ListBudgets";
 
 
@@ -38,7 +39,7 @@ export default {
   components: {
     Navbar,
     Profile,
-    List,
+    MyBudgetsContratante,
     Budget
   },
   methods: {

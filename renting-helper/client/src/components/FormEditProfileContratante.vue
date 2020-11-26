@@ -7,6 +7,12 @@
         <input v-model="form.name" type="text" class="form-control" id="name" />
       </div>
       <!-- NAME -->
+      <!-- EMAIL -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input v-model="form.email" type="email" class="form-control" id="email" />
+      </div>
+      <!-- EMAIL -->
       <!-- PASSWORD -->
       <div class="flex__container form-group justify-content-between">
         <div class="form-group fullwidth pr-3">
@@ -25,19 +31,20 @@
         <input v-model="form.birthday" type="date" class="form-control" id="birthday" />
       </div>
       <!-- BIRTHDAY -->
-      <!-- GRADELEVEL -->
-      <div class="form-group">
-        <label for="services">Escolaridade:</label>
-        <Multiselect
-          v-model="form.services"
-          :options="services"
-          :searchable="false"
-          :close-on-select="true"
-          :multiple="false"
-          placeholder="Escolaridade"
-        ></Multiselect>
-      </div>
-      <!-- GRADELEVEL -->
+
+    <div class="form-group">
+      <label for="state">Em qual estado você mora?</label>
+      <multiselect
+        v-model="form.state"
+        placeholder="Estado"
+        :options="state"
+        :searchable="true"
+        :allow-empty="true"
+        :close-on-select="true"
+      >
+      </multiselect>
+    </div>
+
       <!-- SUBMIT -->
       <div class="flex__container">
         <button @click="updateUser()" type="button" class="btn btn-success form-group">Atualizar</button>
@@ -54,17 +61,18 @@ export default {
   data() {
     return {
       form: {
-        type: "contrante",
+        type: "contratante",
         name: this.profile.name,
         email: this.profile.email,
         oldPassword: this.profile.oldPassword,
         newPassword: this.profile.newPassword,
         birthday: this.profile.birthday.split("T")[0],
         services: this.profile.services,
+        state: this.profile.state,
         image: this.image
       },
       services: this.$store.state.services,
-      locales: this.$store.state.locales
+      state: this.$store.state.state  
     };
   },
   methods: {

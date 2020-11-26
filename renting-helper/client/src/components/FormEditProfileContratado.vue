@@ -77,7 +77,6 @@
 
 <script>
 import Multiselect from "vue-multiselect";
-
 export default {
   props: ["profile"],
   data() {

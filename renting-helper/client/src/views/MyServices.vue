@@ -9,13 +9,13 @@
       <div class="row mb-3">
         <Profile :profile="$store.getters.currentUser" />
         <div class="bg-white p-5 mt-3 box">
-        <List v-if="$store.getters.currentUser.type == 'contratante'"
+        <Services v-if="$store.getters.currentUser.type == 'contratante'"
             :profile="$store.getters.currentUser"
-            class="bg-white p-3"/>
-        <Budget v-if="$store.getters.currentUser.type == 'contratado'"
+            class="bg-white p-3"/>   
+        <Services v-if="$store.getters.currentUser.type == 'contratado'"
             :profile="$store.getters.currentUser"
-            class="bg-white p-3"/>
-        </div>
+         class="bg-white p-3"/>       
+        </div>      
       </div>
     </div>
   </div>
@@ -24,8 +24,7 @@
 <script>
 import Navbar from "../components/Navbar";
 import Profile from "../components/ProfileColumn";
-import List from "../components/ListServicos";
-import Budget from "../components/ListBudgets";
+import Services from "../components/MyServicesContratante";
 
 
 export default {
@@ -38,8 +37,7 @@ export default {
   components: {
     Navbar,
     Profile,
-    List,
-    Budget
+    Services
   },
   methods: {
     setSameHeight(el) {

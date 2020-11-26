@@ -21,6 +21,14 @@
         >
         </span>
       </div>
+      <hr />
+      <p class="text-center">
+          <a :href="`/budgets`">Orçamentos</a>
+      </p>
+      <hr />
+      <p class="text-center">
+          <a :href="`/services`">Serviços</a>
+      </p>
     </div>
   </div>
 </template>

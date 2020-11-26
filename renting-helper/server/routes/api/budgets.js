@@ -11,19 +11,20 @@ const Budget = require('../../models/Budget')
  */
 
 router.post('/', auth, async (req, res) => {
-    console.log(req.user)
     //Creating new user
      const budget = new Budget({
        contratado: req.body.id,
        contratante: req.user._id,
+       date: req.body.selectedDate,
        status: 0,
+       value: 0,
        service: req.body.selectedServices
      })
 
     try {
          const savedBudget = await budget.save();
          res.status(200).json({
-             message: `Orçamento ${savedBudget.service} criado com sucesso!`
+             message: `Orçamento solicitado com sucesso!`
          })
      } catch (error) {
          res.status(500).json({
@@ -40,17 +41,48 @@ router.post('/', auth, async (req, res) => {
  */
 
 router.get('/:userId', auth, async (req, res) => {
-
     // Find the user on db with ID
-    const posts = await Post.find({contratante: req.params.userId})
+    var posts = []
+    if (req.user.type == 'contratante'){
+         posts = await Budget.find({contratante: req.params.userId})
         .populate('contratado')
         .populate('contratante');
-    
+    }
+
+    else {
+        posts = await Budget.find({contratado: req.params.userId})
+        .populate('contratado')
+        .populate('contratante'); 
+    }
+
     if (posts.length <= 0) return res.status(404).json({
-        message: "Nenhum post encontrado"
+        message: "Nenhum orçamento encontrado"
     })
 
     res.status(200).send({posts: posts})
+
+})
+
+/**
+ * @route   PUT api/budgets/:budgetId
+ * @desc    Edit the budgets 
+ * @access  Public
+ */
+
+router.put('/:budgetId', auth, async (req, res) => {
+    // Find the user on db with ID
+    try {
+        const budget = await Budget.findByIdAndUpdate(req.params.budgetId, req.body, {useFindAndModify: false});
+        
+        res.status(200).json({
+            message: `Orçamento atualizado com sucesso!`
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: `Não foi possível atualizar o orçamento. ${error.message}`
+        })
+    }
+
 
 })
 

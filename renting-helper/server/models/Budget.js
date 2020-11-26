@@ -18,6 +18,12 @@ const budgetSchema = new Schema({
     status:{
         type: Number,
         required: true
+    },
+    value:{
+        type:Number
+    },
+    date:{
+        type: Date
     }
 }, {
     timestamps: true
