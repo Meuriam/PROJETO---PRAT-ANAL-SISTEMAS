@@ -9,10 +9,6 @@
         {"src": "(.*)", "dest": "/index.js"}
     ],
     "env": {   
-        "MONGO_URI": "mongodb+srv://rentinghelper:admin123@cluster0.lrfoc.mongodb.net/rentinghelper?retryWrites=true&w=majority",
-        "PORT": "5000",
-        "TOKEN_SECRET": "rentinghelper",
-        "S3_ID": "AKIA27B4SYTYCXNLJ3MC",
-        "S3_SECRET": "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"
+
     }
 }
